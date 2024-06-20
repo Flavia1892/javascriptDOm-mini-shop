@@ -1,9 +1,9 @@
 let products = [
-  { id: 1, name: "Product 1", price: 10, quantity: 30 },
-  { id: 2, name: "Product 2", price: 20, quantity: 30 },
-  { id: 3, name: "Product 3", price: 30, quantity: 30 },
-  { id: 4, name: "Product 4", price: 30, quantity: 30 },
-  { id: 5, name: "Product 5", price: 30, quantity: 30 },
+  { id: 1, name: "Product 1", price: 10, quantity: 2 },
+  { id: 2, name: "Product 2", price: 20, quantity: 6 },
+  { id: 3, name: "Product 3", price: 30, quantity: 5 },
+  { id: 4, name: "Product 4", price: 30, quantity: 4 },
+  { id: 5, name: "Product 5", price: 30, quantity: 3 },
 ];
 
 let cart = [];
@@ -17,8 +17,10 @@ function renderProducts() {
               <div class="card">
                   <div class="card-body">
                       <h5 class="card-title">${product.name}</h5>
-                      <p class="card-text">$${product.price}</p>
-                      <button class="btn btn-primary add-to-cart" data-id="${product.id}">Add to Cart</button>
+                      <img height=160px width=130px src="/styles/${product.id}.jpg" alt='poza produs'</img>                       
+                        <p class="card-text">$${product.price}</p>                        
+                      <p class="card-text" id="quantity">Quantity: ${product.quantity}</p>
+                      <button class="btn btn-primary add-to-cart" id="addToCart"data-id="${product.id}">Add to Cart</button>
                   </div>
               </div>
           </div>
@@ -78,17 +80,39 @@ function renderCart() {
   });
 }
 
+//Calculate the quantity of products
+function calculateQuantity(productId) {
+  const product = products.find((p) => p.id === productId);
+
+  if (product.quantity <= 0) {
+    const outOfStock = document.querySelectorAll("[id='addToCart']");
+    outOfStock[productId - 1].innerHTML = `OutOfStock`;
+    return;
+  } else {
+    cart.push(product);
+  }
+
+  product.quantity--;
+
+  const cantProdu = document.querySelectorAll("[id='quantity']");
+  cantProdu[productId - 1].innerHTML = `Quantity: ${product.quantity}`;
+  if (product.quantity <= 0) {
+    const outOfStock = document.querySelectorAll("[id='addToCart']");
+    outOfStock[productId - 1].innerHTML = `OutOfStock`;
+    return;
+  }
+}
+
 function addToCart(productId) {
   const product = products.find((p) => p.id === productId);
+  calculateQuantity(product.id);
 
   // TODO: "impinge" produsul in lista de cart
   // asta trebuie sa faci tu :)
 
-  cart.push(product);
   const totalProducts = document.querySelector("h2");
   totalProducts.innerHTML = `<h2>Total produse: ${cart.length}</h2>`;
 
-  // ca sa afisez actualizat - practic fac override la ce am deja in innerHTML
   renderCart();
 }
 
@@ -103,28 +127,40 @@ function removeFromCart(productId) {
   renderCart();
 }
 
+function resetQuantity() {
+  const cantProdu = document.querySelectorAll("[id='quantity']");
+  cantProdu[0].innerHTML = `Quantity: 2`;
+  products[0].quantity = 2;
+  cantProdu[1].innerHTML = `Quantity: 6`;
+  products[1].quantity = 6;
+  cantProdu[2].innerHTML = `Quantity: 5`;
+  products[2].quantity = 5;
+  cantProdu[3].innerHTML = `Quantity: 4`;
+  products[3].quantity = 4;
+  cantProdu[4].innerHTML = `Quantity: 3`;
+  products[4].quantity = 3;
+
+  const outOfStock = document.querySelectorAll("[id='addToCart']");
+
+  for (let i = 0; i < products.length; i++) {
+    outOfStock[i].innerHTML = `Add to Cart`;
+  }
+}
 function checkout() {
   let total = 0;
+
+  console.log(cart);
 
   if (cart.length === 0) {
     {
       document.getElementById("checkout-btn").innerHTML = "Checkout";
       document.querySelector("h2").innerHTML = `Total produse: 0`;
+
+      resetQuantity();
       alert("Cart is empty!");
     }
     return;
   } else total = cart.reduce((total, arr) => total + arr.price, 0);
-
-  // TODO: conditioneaza un alert message daca nu ai continut
-  // HINT:
-  // if (
-  //   // cartul nu are continut
-  // ) {
-  //   alert("Your cart is empty!");
-  //   return;
-  // }
-
-  // TODO: calculeaza totalul cartului
 
   // afiseaza mesajul
   const butonel = document.getElementById("checkout-btn");
@@ -137,6 +173,7 @@ function checkout() {
   cart.length = 0; // Clear the cart
 
   // si facem iar update
+
   renderCart();
 }
 
