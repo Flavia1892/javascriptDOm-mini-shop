@@ -1,7 +1,9 @@
 let products = [
-  { id: 1, name: "Product 1", price: 10 },
-  { id: 2, name: "Product 2", price: 20 },
-  { id: 3, name: "Product 3", price: 30 },
+  { id: 1, name: "Product 1", price: 10, quantity: 30 },
+  { id: 2, name: "Product 2", price: 20, quantity: 30 },
+  { id: 3, name: "Product 3", price: 30, quantity: 30 },
+  { id: 4, name: "Product 4", price: 30, quantity: 30 },
+  { id: 5, name: "Product 5", price: 30, quantity: 30 },
 ];
 
 let cart = [];
@@ -93,19 +95,7 @@ function addToCart(productId) {
 function removeFromCart(productId) {
   // filtreaza-mi tot ce e diferit ce input "productId"
   // obtin un array fara ce am pasat in input
-  //cart = cart.filter((item) => item.id !== productId);
-
-  let position = cart.findIndex(checkId);
-  function checkId(arr) {
-    return arr.id === productId;
-  }
-  cart.splice(position, 1);
-
-  //for (let key in cart)
-  //if (cart[key].id === productId) {
-  //cart.splice(key, 1);
-  //break;
-  //}
+  cart = cart.filter((item) => item.id !== productId);
 
   // update la datele afisate
   const totalProducts = document.querySelector("h2");
@@ -124,8 +114,6 @@ function checkout() {
     }
     return;
   } else total = cart.reduce((total, arr) => total + arr.price, 0);
-
-  //for (let key in cart) total += cart[key].price;
 
   // TODO: conditioneaza un alert message daca nu ai continut
   // HINT:
