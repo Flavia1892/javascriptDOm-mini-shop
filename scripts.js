@@ -1,25 +1,44 @@
 let products = [
-  { id: 1, name: "Product 1", price: 10, quantity: 2 },
-  { id: 2, name: "Product 2", price: 20, quantity: 6 },
-  { id: 3, name: "Product 3", price: 30, quantity: 5 },
-  { id: 4, name: "Product 4", price: 30, quantity: 4 },
-  { id: 5, name: "Product 5", price: 30, quantity: 3 },
-];
-
-let counterQuantity = [
-  { id: 1, name: "Product 1", price: 10, quantitycount: 0 },
-  { id: 2, name: "Product 2", price: 20, quantitycount: 0 },
-  { id: 3, name: "Product 3", price: 30, quantitycount: 0 },
-  { id: 4, name: "Product 4", price: 30, quantitycount: 0 },
-  { id: 5, name: "Product 5", price: 30, quantitycount: 0 },
-];
-
-let descriptionCard = [
-  { id: 1, description: "baby kittens of European descent" },
-  { id: 2, description: "Bombay breed of cat-female" },
-  { id: 3, description: "British short-har male breed" },
-  { id: 4, description: "Commom European orange tabby breed; both sexes" },
-  { id: 5, description: "Ragdoll fluffy and mild tempered female breed" },
+  {
+    id: 1,
+    name: "Product 1",
+    price: 10,
+    quantity: 2,
+    description: "baby kittens of European descent",
+    quantitycount: 0,
+  },
+  {
+    id: 2,
+    name: "Product 2",
+    price: 20,
+    quantity: 6,
+    description: "Bombay breed of cat-female",
+    quantitycount: 0,
+  },
+  {
+    id: 3,
+    name: "Product 3",
+    price: 30,
+    quantity: 5,
+    description: "British short-har male breed",
+    quantitycount: 0,
+  },
+  {
+    id: 4,
+    name: "Product 4",
+    price: 30,
+    quantity: 4,
+    description: "Commom European orange tabby breed; both sexes",
+    quantitycount: 0,
+  },
+  {
+    id: 5,
+    name: "Product 5",
+    price: 30,
+    quantity: 3,
+    description: "Ragdoll fluffy and mild tempered female breed",
+    quantitycount: 0,
+  },
 ];
 
 let cart = [];
@@ -35,7 +54,7 @@ function renderProducts() {
                       <h5 class="card-title">${product.name}</h5>
                       <img height=160px width=130px src="/styles/${product.id}.jpg" alt='poza produs'</img>                       
                         <p class="card-text">$${product.price}</p> 
-                         <p class="card-text">Description: ${descriptionCard[product.id-1].description}</p>                       
+                         <p class="card-text">Description: ${product.description}</p>                       
                       <p class="card-text" id="quantity">Quantity: ${product.quantity}</p>
                       <button class="btn btn-primary add-to-cart" id="addToCart"data-id="${product.id}">Add to Cart</button>
                   </div>
@@ -75,15 +94,12 @@ function renderCart() {
         // plus fiecarui element ii spun cum sa arate cu niste HTML si bootstrap classes
         (item) => `
           <li class="list-group-item d-flex justify-content-between align-items-center">
-              ${item.name} -<h2> $${item.price} </h2>                 
+              ${item.name} - <b>$${item.price}  </b>               
              
           </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center" id='quant'> Quantity: ${
-            counterQuantity[item.id - 1].quantitycount
-          }
-           <button class="btn btn-danger btn-sm remove-from-cart" data-id="${
-             item.id
-           }">Remove</button></li>
+          <li class="list-group-item d-flex justify-content-between align-items-center" id='quant'><u> Quantity:</u> <b>${item.quantitycount}</b>
+           <button class="btn btn-danger btn-sm remove-from-cart" data-id="${item.id}">Remove</button>
+            <button class="btn btn-danger btn-sm clear-cart" data-id="${item.id}">Clear</button></li>
       `
       )
       // iar la final facem join, ca din array (prin cart.map)
@@ -100,10 +116,25 @@ function renderCart() {
       removeFromCart(productId);
     });
   });
+  document.querySelectorAll(".clear-cart").forEach((button) => {
+    button.addEventListener("click", (event) => {
+      // ma uit in attribute - acolo am pus id-ul produsului ca informatie
+      // si preiau cu getAttribute acea valoare
+      const productId = parseInt(event.target.getAttribute("data-id"));
+
+      // o pasez functiei removeFromFromCart ca parametru
+      console.log("Please clear");
+      clearProductFromCart(productId);
+    });
+  });
+
+  const totalProducts = document.querySelector("h2");
+  let sum = totalProductsQuantityCart();
+  totalProducts.innerHTML = `<h2>Total produse: ${totalProductsQuantityCart()} </h2>`;
 }
 
 function checkQuantityOfProductsList() {
-  return counterQuantity.every(checkQuantity(obj));
+  return products.every(checkQuantity(obj));
 
   function checkQuantity(obj) {
     return obj.quantitycount <= 1;
@@ -121,8 +152,7 @@ function calculateQuantity(productId) {
   } else {
     if (checkCart(productId)) cart.push(product);
 
-    const counter = counterQuantity.find((p) => p.id === productId);
-    counter.quantitycount++;
+    product.quantitycount++;
   }
 
   product.quantity--;
@@ -141,15 +171,21 @@ function checkCart(productId) {
 
   return true;
 }
+function totalProductsQuantityCart() {
+  let total = 0;
+  for (let key in cart) total = total + cart[key].quantitycount;
+
+  return total;
+}
 
 function addToCart(productId) {
-  const product = products.find((p) => p.id === productId);
-  calculateQuantity(product.id);
-
-  const totalProducts = document.querySelector("h2");
-  totalProducts.innerHTML = `<h2>Total produse: ${cart.length}</h2>`;
+  calculateQuantity(productId);
 
   renderCart();
+
+  const totalProducts = document.querySelector("h2");
+  let sum = totalProductsQuantityCart();
+  totalProducts.innerHTML = `<h2>Total produse: ${totalProductsQuantityCart()} </h2>`;
 }
 
 function removeFromCart(productId) {
@@ -157,15 +193,14 @@ function removeFromCart(productId) {
   // obtin un array fara ce am pasat in input
   // cart = cart.filter((item) => item.id !== productId);
 
-  if (counterQuantity[productId - 1].quantitycount == 1)
+  if (products[productId - 1].quantitycount == 1)
     cart = cart.filter((item) => item.id !== productId);
   else {
     let prodDecrease = document.querySelectorAll("[id='quant']");
-    prodDecrease.innerHTML = `Quantity: ${counterQuantity[productId - 1]
+    prodDecrease.innerHTML = `Quantity: ${products[productId - 1]
       .quantitycount--}`;
   }
 
-  counterQuantity[productId - 1].quantitycount;
   products[productId - 1].quantity++;
   const cantProdu = document.querySelectorAll("[id='quantity']");
   cantProdu[productId - 1].innerHTML = `Quantity: ${
@@ -173,11 +208,22 @@ function removeFromCart(productId) {
   }`;
 
   // update la datele afisate
-  const totalProducts = document.querySelector("h2");
-  totalProducts.innerHTML = `<h2>Total produse: ${cart.length}</h2>`;
+
   const outOfStock = document.querySelectorAll("[id='addToCart']");
   outOfStock[productId - 1].innerHTML = `Add to Cart`;
   renderCart(productId);
+  const totalProducts = document.querySelector("h2");
+  let suma = totalProductsQuantityCart();
+  totalProducts.innerHTML = `<h2>Total produse: ${suma}</h2>`;
+}
+
+function clearProductFromCart(productId) {
+  console.log(cart);
+  for (let key in cart) {
+    if (cart[key].id === productId) cart.splice(key, 1);
+    renderCart();
+  }
+  //cart = cart.filter((item) => item.id !== productId);
 }
 
 function resetQuantity() {
@@ -211,6 +257,7 @@ function resetCart() {
           <li class="list-group-item d-flex justify-content-between align-items-center">
               ${item.name} - $${item.price}                  
               <button class="btn btn-danger btn-sm remove-from-cart" data-id="${item.id}">Remove</button>
+              <button class="btn btn-danger btn-sm clear-cart" data-id="${item.id}">Clear</button>
           </li>
                `
       )
@@ -220,28 +267,66 @@ function resetCart() {
 }
 
 function resetQuant() {
-  for (let key in counterQuantity) counterQuantity[key].quantitycount = 0;
+  for (let key in products) products[key].quantitycount = 0;
 }
 
 function checkout() {
   let total = 0;
 
   if (cart.length === 0) {
-    {
-      document.getElementById("checkout-btn").innerHTML = "Checkout";
-      document.querySelector("h2").innerHTML = `Total produse: 0`;
+    document.getElementById("checkout-btn").innerHTML = "Checkout";
+    document.querySelector("h2").innerHTML = `Total produse: `;
+    products = [
+      {
+        id: 1,
+        name: "Product 1",
+        price: 10,
+        quantity: 2,
+        description: "baby kittens of European descent",
+        quantitycount: 0,
+      },
+      {
+        id: 2,
+        name: "Product 2",
+        price: 20,
+        quantity: 6,
+        description: "Bombay breed of cat-female",
+        quantitycount: 0,
+      },
+      {
+        id: 3,
+        name: "Product 3",
+        price: 30,
+        quantity: 5,
+        description: "British short-har male breed",
+        quantitycount: 0,
+      },
+      {
+        id: 4,
+        name: "Product 4",
+        price: 30,
+        quantity: 4,
+        description: "Commom European orange tabby breed; both sexes",
+        quantitycount: 0,
+      },
+      {
+        id: 5,
+        name: "Product 5",
+        price: 30,
+        quantity: 3,
+        description: "Ragdoll fluffy and mild tempered female breed",
+        quantitycount: 0,
+      },
+    ];
+    renderProducts();
+    alert("Cart is empty!");
 
-      resetQuantity();
-      alert("Cart is empty!");
-    }
     // return;
   } else
-    for (let key in counterQuantity)
-      total =
-        total + counterQuantity[key].price * counterQuantity[key].quantitycount;
+    for (let key in cart)
+      total = total + cart[key].price * cart[key].quantitycount;
 
   resetQuant();
-  console.log(counterQuantity);
 
   // afiseaza mesajul
   const butonel = document.getElementById("checkout-btn");
