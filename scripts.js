@@ -14,7 +14,13 @@ let counterQuantity = [
   { id: 5, name: "Product 5", price: 30, quantitycount: 0 },
 ];
 
-const productsCopy = [...products];
+let descriptionCard = [
+  { id: 1, description: "baby kittens of European descent" },
+  { id: 2, description: "Bombay breed of cat-female" },
+  { id: 3, description: "British short-har male breed" },
+  { id: 4, description: "Commom European orange tabby breed; both sexes" },
+  { id: 5, description: "Ragdoll fluffy and mild tempered female breed" },
+];
 
 let cart = [];
 
@@ -28,7 +34,8 @@ function renderProducts() {
                   <div class="card-body">
                       <h5 class="card-title">${product.name}</h5>
                       <img height=160px width=130px src="/styles/${product.id}.jpg" alt='poza produs'</img>                       
-                        <p class="card-text">$${product.price}</p>                        
+                        <p class="card-text">$${product.price}</p> 
+                         <p class="card-text">Description: ${descriptionCard[product.id-1].description}</p>                       
                       <p class="card-text" id="quantity">Quantity: ${product.quantity}</p>
                       <button class="btn btn-primary add-to-cart" id="addToCart"data-id="${product.id}">Add to Cart</button>
                   </div>
@@ -68,14 +75,15 @@ function renderCart() {
         // plus fiecarui element ii spun cum sa arate cu niste HTML si bootstrap classes
         (item) => `
           <li class="list-group-item d-flex justify-content-between align-items-center">
-              ${item.name} - $${item.price}                  
-              <button class="btn btn-danger btn-sm remove-from-cart" data-id="${
-                item.id
-              }">Remove</button>
+              ${item.name} -<h2> $${item.price} </h2>                 
+             
           </li>
           <li class="list-group-item d-flex justify-content-between align-items-center" id='quant'> Quantity: ${
             counterQuantity[item.id - 1].quantitycount
-          }</li>
+          }
+           <button class="btn btn-danger btn-sm remove-from-cart" data-id="${
+             item.id
+           }">Remove</button></li>
       `
       )
       // iar la final facem join, ca din array (prin cart.map)
@@ -83,8 +91,6 @@ function renderCart() {
       .join("");
 
   document.querySelectorAll(".remove-from-cart").forEach((button) => {
-    //  TODO: implementeaza ce sa faca remove from cart
-
     button.addEventListener("click", (event) => {
       // ma uit in attribute - acolo am pus id-ul produsului ca informatie
       // si preiau cu getAttribute acea valoare
@@ -140,9 +146,6 @@ function addToCart(productId) {
   const product = products.find((p) => p.id === productId);
   calculateQuantity(product.id);
 
-  // TODO: "impinge" produsul in lista de cart
-  // asta trebuie sa faci tu :)
-
   const totalProducts = document.querySelector("h2");
   totalProducts.innerHTML = `<h2>Total produse: ${cart.length}</h2>`;
 
@@ -157,11 +160,9 @@ function removeFromCart(productId) {
   if (counterQuantity[productId - 1].quantitycount == 1)
     cart = cart.filter((item) => item.id !== productId);
   else {
-
     let prodDecrease = document.querySelectorAll("[id='quant']");
-    prodDecrease.innerHTML = `Quantity: ${
-      counterQuantity[productId - 1].quantitycount--
-    }`;
+    prodDecrease.innerHTML = `Quantity: ${counterQuantity[productId - 1]
+      .quantitycount--}`;
   }
 
   counterQuantity[productId - 1].quantitycount;
