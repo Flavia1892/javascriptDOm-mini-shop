@@ -94,7 +94,7 @@ function renderCart() {
         // plus fiecarui element ii spun cum sa arate cu niste HTML si bootstrap classes
         (item) => `
           <li class="list-group-item d-flex justify-content-between align-items-center">
-              ${item.name} - <b>$${item.price}  </b>               
+              ${item.name} - <b style="font-size:27px">$${item.price}  </b>               
              
           </li>
           <li class="list-group-item d-flex justify-content-between align-items-center" id='quant'><u> Quantity:</u> <b>${item.quantitycount}</b>
@@ -123,159 +123,22 @@ function renderCart() {
       const productId = parseInt(event.target.getAttribute("data-id"));
 
       // o pasez functiei removeFromFromCart ca parametru
-      console.log("Please clear");
+
       clearProductFromCart(productId);
     });
   });
 
-  const totalProducts = document.querySelector("h2");
-  let sum = totalProductsQuantityCart();
-  totalProducts.innerHTML = `<h2>Total produse: ${totalProductsQuantityCart()} </h2>`;
-}
-
-function checkQuantityOfProductsList() {
-  return products.every(checkQuantity(obj));
-
-  function checkQuantity(obj) {
-    return obj.quantitycount <= 1;
-  }
-}
-
-//Calculate the quantity of products
-function calculateQuantity(productId) {
-  const product = products.find((p) => p.id === productId);
-
-  if (product.quantity <= 0) {
-    const outOfStock = document.querySelectorAll("[id='addToCart']");
-    outOfStock[productId - 1].innerHTML = `OutOfStock`;
-    return;
-  } else {
-    if (checkCart(productId)) cart.push(product);
-
-    product.quantitycount++;
-  }
-
-  product.quantity--;
-
-  const cantProdu = document.querySelectorAll("[id='quantity']");
-  cantProdu[productId - 1].innerHTML = `Quantity: ${product.quantity}`;
-  if (product.quantity <= 0) {
-    const outOfStock = document.querySelectorAll("[id='addToCart']");
-    outOfStock[productId - 1].innerHTML = `OutOfStock`;
-    return;
-  }
-}
-
-function checkCart(productId) {
-  for (let key in cart) if (cart[key].id === productId) return false;
-
-  return true;
-}
-function totalProductsQuantityCart() {
-  let total = 0;
-  for (let key in cart) total = total + cart[key].quantitycount;
-
-  return total;
-}
-
-function addToCart(productId) {
-  calculateQuantity(productId);
-
-  renderCart();
+  const totalValue = document.querySelector("h3");
+  totalValue.innerHTML = `<b style="font-size:30px">Cart  Total cost: ${totalvalueOfCart()} $</b>`;
 
   const totalProducts = document.querySelector("h2");
-  let sum = totalProductsQuantityCart();
-  totalProducts.innerHTML = `<h2>Total produse: ${totalProductsQuantityCart()} </h2>`;
-}
+  totalProducts.innerHTML = `<h2>Products count: ${totalProductsQuantityCart()} </h2>`;
 
-function removeFromCart(productId) {
-  // filtreaza-mi tot ce e diferit ce input "productId"
-  // obtin un array fara ce am pasat in input
-  // cart = cart.filter((item) => item.id !== productId);
+  const butonas = document.getElementById("checkout-btn");
+  butonas.innerText = "Checkout";
 
-  if (products[productId - 1].quantitycount == 1)
-    cart = cart.filter((item) => item.id !== productId);
-  else {
-    let prodDecrease = document.querySelectorAll("[id='quant']");
-    prodDecrease.innerHTML = `Quantity: ${products[productId - 1]
-      .quantitycount--}`;
-  }
-
-  products[productId - 1].quantity++;
-  const cantProdu = document.querySelectorAll("[id='quantity']");
-  cantProdu[productId - 1].innerHTML = `Quantity: ${
-    products[productId - 1].quantity
-  }`;
-
-  // update la datele afisate
-
-  const outOfStock = document.querySelectorAll("[id='addToCart']");
-  outOfStock[productId - 1].innerHTML = `Add to Cart`;
-  renderCart(productId);
-  const totalProducts = document.querySelector("h2");
-  let suma = totalProductsQuantityCart();
-  totalProducts.innerHTML = `<h2>Total produse: ${suma}</h2>`;
-}
-
-function clearProductFromCart(productId) {
-  console.log(cart);
-  for (let key in cart) {
-    if (cart[key].id === productId) cart.splice(key, 1);
-    renderCart();
-  }
-  //cart = cart.filter((item) => item.id !== productId);
-}
-
-function resetQuantity() {
-  const cantProdu = document.querySelectorAll("[id='quantity']");
-  cantProdu[0].innerHTML = `Quantity: 2`;
-  products[0].quantity = 2;
-  cantProdu[1].innerHTML = `Quantity: 6`;
-  products[1].quantity = 6;
-  cantProdu[2].innerHTML = `Quantity: 5`;
-  products[2].quantity = 5;
-  cantProdu[3].innerHTML = `Quantity: 4`;
-  products[3].quantity = 4;
-  cantProdu[4].innerHTML = `Quantity: 3`;
-  products[4].quantity = 3;
-
-  const outOfStock = document.querySelectorAll("[id='addToCart']");
-
-  for (let i = 0; i < products.length; i++) {
-    outOfStock[i].innerHTML = `Add to Cart`;
-  }
-}
-
-function resetCart() {
-  const cartList = document.getElementById("cart-list");
-  cartList.innerHTML =
-    // folosind cart object, iterand prin el cu map
-    cart
-      .map(
-        // plus fiecarui element ii spun cum sa arate cu niste HTML si bootstrap classes
-        (item) => `
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-              ${item.name} - $${item.price}                  
-              <button class="btn btn-danger btn-sm remove-from-cart" data-id="${item.id}">Remove</button>
-              <button class="btn btn-danger btn-sm clear-cart" data-id="${item.id}">Clear</button>
-          </li>
-               `
-      )
-      // iar la final facem join, ca din array (prin cart.map)
-      // sa devina un string, stringul fiind cel asteptat in .innerHTML (ceva de genul: "<li>test</li><li>test</li><li>test</li>")
-      .join("");
-}
-
-function resetQuant() {
-  for (let key in products) products[key].quantitycount = 0;
-}
-
-function checkout() {
-  let total = 0;
-
-  if (cart.length === 0) {
-    document.getElementById("checkout-btn").innerHTML = "Checkout";
-    document.querySelector("h2").innerHTML = `Total produse: `;
+  const buttonClearCart = document.getElementById("clear-cart");
+  buttonClearCart.addEventListener("click", () => {
     products = [
       {
         id: 1,
@@ -319,28 +182,185 @@ function checkout() {
       },
     ];
     renderProducts();
+    renderCart();
+    const title = document.querySelector("h3");
+    title.innerHTML = "<h3>Cart</h3>";
+    cart = [];
+  });
+}
+
+//here we calculate the total vaue of the cart in $
+function totalvalueOfCart() {
+  let totalSum = 0;
+  for (let key in cart)
+    totalSum = totalSum + cart[key].price * cart[key].quantitycount;
+
+  return totalSum;
+}
+
+//Calculate the quantity of products
+function calculateQuantity(productId) {
+  const product = products.find((p) => p.id === productId);
+
+  if (product.quantity === 0) {
+    const outOfStock = document.querySelectorAll("[id='addToCart']");
+    outOfStock[productId - 1].innerHTML = `OutOfStock`;
+    return; //if this condition is true then we leave the big function(calculateQuantity) here
+  }
+
+  if (checkCart(productId)) cart.push(product);
+
+  product.quantitycount++;
+
+  product.quantity--;
+
+  const cantProdu = document.querySelectorAll("[id='quantity']");
+  cantProdu[productId - 1].innerHTML = `Quantity: ${product.quantity}`;
+  if (product.quantity <= 0) {
+    const outOfStock = document.querySelectorAll("[id='addToCart']");
+    outOfStock[productId - 1].innerHTML = `OutOfStock`;
+    return;
+  }
+}
+//check to see if the product object already exists in the cart array
+function checkCart(productId) {
+  for (let key in cart) if (cart[key].id === productId) return false;
+
+  return true;
+}
+//function to calculate the quantity of products in cart: sum of the quantity value of each product object in cart
+function totalProductsQuantityCart() {
+  let total = 0;
+  for (let key in cart) total = total + cart[key].quantitycount;
+
+  return total;
+}
+//Add to cart fuction
+function addToCart(productId) {
+  calculateQuantity(productId);
+
+  renderCart(); //view cart in html
+
+  const totalProducts = document.querySelector("h2");
+  totalProducts.innerHTML = `<h2>Products count: ${totalProductsQuantityCart()} </h2>`; //show the toal quantty of products in cart
+}
+
+//Here we remove either the object from cart array or we decrease the quantity of the object.id===ProductId from array cart
+function removeFromCart(productId) {
+  if (products[productId - 1].quantitycount == 1)
+    cart = cart.filter((item) => item.id !== productId);
+
+  let prodDecrease = document.querySelectorAll("[id='quant']");
+  prodDecrease.innerHTML = `Quantity: ${products[productId - 1]
+    .quantitycount--}`;
+
+  products[productId - 1].quantity++;
+  const cantProdu = document.querySelectorAll("[id='quantity']");
+  cantProdu[productId - 1].innerHTML = `Quantity: ${
+    products[productId - 1].quantity
+  }`;
+
+  const outOfStock = document.querySelectorAll("[id='addToCart']");
+  outOfStock[productId - 1].innerHTML = `Add to Cart`;
+  renderCart(productId);
+}
+
+//Here we remove an entire object from the cart array if the id of object is clicked
+function clearProductFromCart(productId) {
+  console.log(cart);
+  for (let key in cart) {
+    if (cart[key].id === productId) cart.splice(key, 1);
+    renderCart();
+  }
+  //cart = cart.filter((item) => item.id !== productId);
+}
+
+function resetCart() {
+  const cartList = document.getElementById("cart-list");
+  cartList.innerHTML =
+    // folosind cart object, iterand prin el cu map
+    cart
+      .map(
+        // plus fiecarui element ii spun cum sa arate cu niste HTML si bootstrap classes
+        (item) => `
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+              ${item.name} - $${item.price}                  
+              <button class="btn btn-danger btn-sm remove-from-cart" data-id="${item.id}">Remove</button>
+              <button class="btn btn-danger btn-sm clear-cart" data-id="${item.id}">Clear</button>
+          </li>
+               `
+      )
+      // iar la final facem join, ca din array (prin cart.map)
+      // sa devina un string, stringul fiind cel asteptat in .innerHTML (ceva de genul: "<li>test</li><li>test</li><li>test</li>")
+      .join("");
+}
+//here we reset the quantitycount variable in products array for each object(product)
+function resetQuant() {
+  for (let key in products) products[key].quantitycount = 0;
+}
+//Here we checkout the cart and reset both cart and products array
+function checkout() {
+  const totalProducts = document.querySelector("h2");
+  totalProducts.innerHTML = `<h2>Products count: ${totalProductsQuantityCart()} </h2>`; //afisare the quantityof the  entire cart in HTML
+
+  if (cart.length === 0) {
+    //here we check if the cart is empty and reset the value of procuts array is true
+    products = [
+      {
+        id: 1,
+        name: "Product 1",
+        price: 10,
+        quantity: 2,
+        description: "baby kittens of European descent",
+        quantitycount: 0,
+      },
+      {
+        id: 2,
+        name: "Product 2",
+        price: 20,
+        quantity: 6,
+        description: "Bombay breed of cat-female",
+        quantitycount: 0,
+      },
+      {
+        id: 3,
+        name: "Product 3",
+        price: 30,
+        quantity: 5,
+        description: "British short-har male breed",
+        quantitycount: 0,
+      },
+      {
+        id: 4,
+        name: "Product 4",
+        price: 30,
+        quantity: 4,
+        description: "Commom European orange tabby breed; both sexes",
+        quantitycount: 0,
+      },
+      {
+        id: 5,
+        name: "Product 5",
+        price: 30,
+        quantity: 3,
+        description: "Ragdoll fluffy and mild tempered female breed",
+        quantitycount: 0,
+      },
+    ];
+    renderProducts(); //reset products display in html
+    const title = document.querySelector("h3");
+    title.innerHTML = `<h3>Cart</h3>`; //reset the title of cart
     alert("Cart is empty!");
 
     // return;
-  } else
-    for (let key in cart)
-      total = total + cart[key].price * cart[key].quantitycount;
+  }
 
-  resetQuant();
-
-  // afiseaza mesajul
-  const butonel = document.getElementById("checkout-btn");
-  butonel.innerHTML = `Your total is: ${total} $`;
-
-  //alert(`Your total is $${total}. Thank you for your purchase!`);
-
-  // acum ca a dat checkout si "a cumparat"
-  // golim cartul pentru alte cumparaturi :)
+  resetQuant(); //Here we reset the counter in products array for each object
 
   cart.length = 0; // Clear the cart
   cart = [];
 
-  // si facem iar update
+  // si facem reset la cart
 
   resetCart();
 }
