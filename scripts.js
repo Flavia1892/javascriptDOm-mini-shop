@@ -466,6 +466,36 @@ function resetCart2() {
 function resetQuant() {
   for (let key in products) products[key].quantitycount = 0;
 }
+
+//Here is the function to call when we want to display the Modal
+function getModal() {
+  //Modal creation
+  let modal = document.getElementById("myModal");
+
+  // Get the button that opens the modal
+  let btn = document.querySelector(".myBtn");
+
+  // Get the <span> element that closes the modal
+  let span = document.getElementsByClassName("close")[0];
+
+  // When the user clicks the button, open the modal
+  btn.onclick = function () {
+    modal.style.display = "block";
+  };
+
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function () {
+    modal.style.display = "none";
+  };
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  };
+} //End of modal caaling function
+
 //Here we checkout the cart and reset both cart and products array
 function checkout() {
   const totalProducts = document.querySelectorAll("h2");
@@ -473,6 +503,7 @@ function checkout() {
   // const totalProducts2=document.getElementById('count-viewcart');
   // totalProducts2.innerHTML=`<h2>Products count: ${totalProductsQuantityCart()} </h2>`;
   //afisare the quantityof the  entire cart in HTML
+  getModal();
 
   if (cart.length === 0) {
     //here we check if the cart is empty and reset the value of procuts array is true
