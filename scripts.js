@@ -54,7 +54,7 @@ function renderProducts() {
                       <h5 class="card-title">${product.name}</h5>
                       <p style="font-size:13px">Product ID:${product.id}</p>
                       <img height=160px width=130px src="/styles/${product.id}.jpg" alt='poza produs'</img>                       
-                        <p class="card-text">$${product.price}</p> 
+                        <b><p class="card-text">$${product.price}</p></b> 
                          <p class="card-text">Description: ${product.description}</p>                       
                       <p class="card-text" id="quantity">Quantity: ${product.quantity}</p>
                       <button class="btn btn-primary add-to-cart" id="addToCart"data-id="${product.id}">Add to Cart</button>
@@ -131,22 +131,19 @@ function renderCart() {
     });
   });
 
-  const totalValue = document.querySelector("h3");
+  const totalValue = document.querySelector("h3"); //Display total amount of $ in floating right cart
   totalValue.innerHTML = `<p style="font-size:30px">Cart</p> <b> Total cost: ${totalvalueOfCart()} $</b>`;
 
-  const totalProducts = document.querySelector("h2");
+  const totalProducts = document.querySelector("h2"); //Total number of products in floating right cart
   totalProducts.innerHTML = `<h2>Products count: ${totalProductsQuantityCart()} </h2>`;
 
-  const counterNav=document.getElementById('counter-products');
-  counterNav.innerText=`${totalProductsQuantityCart()}`
-
-  const butonas = document.getElementById("checkout-btn");
-  butonas.innerText = "Checkout";
+  const counterNav = document.getElementById("counter-products");
+  counterNav.innerText = `${totalProductsQuantityCart()}`;
 
   const butonViewCart = document.getElementById("go-bottom");
   const ViewCartBottomView = document.getElementById("bottom-view");
 
-//here we made function to go to checkout area from right floating cart button Checkout
+  //here we made function to go to checkout area from right floating cart button Checkout
   butonViewCart.addEventListener("click", (event) => {
     event.preventDefault();
 
@@ -156,13 +153,12 @@ function renderCart() {
   //here we make the function for the navbar button to get us to the cart in Vewcart Bottom Section of the page
   const butonNavBar = document.getElementById("go-to-viewcart");
   const ViewCartView = document.querySelector(".bottomview");
-  
+
   butonNavBar.addEventListener("click", (evt) => {
     evt.preventDefault();
-  
+
     ViewCartView.scrollIntoView({ behavior: "smooth" });
   });
-
 
   const buttonClearCart = document.getElementById("clear-cart");
   buttonClearCart.addEventListener("click", () => {
@@ -212,8 +208,6 @@ function renderCart() {
     renderProducts();
     renderCart();
     rendercart2();
-    const title = document.querySelector("h3");
-    title.innerHTML = "<h3>Cart</h3>";
   });
 }
 
@@ -231,7 +225,8 @@ function rendercart2() {
          </li>
          <li class="list-group-item d-flex justify-content-between align-items-center"><b>Product ID: ${item.id}</b></li>
          <li class="list-group-item d-flex justify-content-between align-items-center" id='quant'><u> Quantity:</u> <b>${item.quantitycount}</b>
-          <button class="btn btn-danger btn-sm remove-from-cart" data-id="${item.id}">Remove</button>
+          <button class="btn btn-primary add-to-cart-cart" id="addToCart"data-id="${item.id}">Add</button>
+         <button class="btn btn-danger btn-sm remove-from-cart" data-id="${item.id}">Remove</button>
            <button class="btn btn-danger btn-sm clear-cart" data-id="${item.id}">Clear</button></li>
      `
     )
@@ -257,6 +252,21 @@ function rendercart2() {
       clearProductFromCart(productId);
     });
   });
+
+  document
+    .querySelectorAll(".add-to-cart-cart")
+    // le parcurg
+    .forEach((button) => {
+      // fiecarui button ii spun ce sa faca la "click"
+      button.addEventListener("click", (event) => {
+        // ma uit in attribute - acolo am pus id-ul produsului ca informatie
+        // si preiau cu getAttribute acea valoare
+        const productId = parseInt(event.target.getAttribute("data-id"));
+
+        // o pasez functiei addToCart ca parametru
+        addToCart(productId);
+      });
+    });
   const totalValue = document.getElementById("total-viewcart");
   totalValue.innerHTML = `<p style="font-size:30px">Cart</p> <b> Total cost: ${totalvalueOfCart()} $</b>`;
 
@@ -332,6 +342,7 @@ function calculateQuantity(productId) {
   if (product.quantity === 0) {
     const outOfStock = document.querySelectorAll("[id='addToCart']");
     outOfStock[productId - 1].innerHTML = `OutOfStock`;
+
     return; //if this condition is true then we leave the big function(calculateQuantity) here
   }
 
@@ -341,8 +352,9 @@ function calculateQuantity(productId) {
 
   product.quantity--;
 
-  const cantProdu = document.querySelectorAll("[id='quantity']");
+  const cantProdu = document.querySelectorAll("[id='quantity']"); //Update la cantitatea de produs din products
   cantProdu[productId - 1].innerHTML = `Quantity: ${product.quantity}`;
+
   if (product.quantity <= 0) {
     const outOfStock = document.querySelectorAll("[id='addToCart']");
     outOfStock[productId - 1].innerHTML = `OutOfStock`;
@@ -397,7 +409,11 @@ function removeFromCart(productId) {
 //Here we remove an entire object from the cart array if the id of object is clicked
 function clearProductFromCart(productId) {
   for (let key in cart) {
-    if (cart[key].id === productId) cart.splice(key, 1);
+    if (cart[key].id === productId) {
+      products[cart[key].id - 1].quantity += cart[key].quantitycount;
+      cart.splice(key, 1);
+    }
+    renderProducts();
     renderCart();
     rendercart2();
   }
@@ -532,4 +548,3 @@ function checkout() {
 document.getElementById("checkout-btn").addEventListener("click", checkout);
 
 renderProducts();
-

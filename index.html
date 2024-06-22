@@ -17,11 +17,35 @@
         margin-left: 460px;
       }
       h2 {
-        background-color: rgb(210, 233, 245);
+        background-color: rgb(227, 239, 246);
       }
       h3 {
-        background-color: rgb(210, 233, 245);
+        background-color: rgb(227, 239, 246);
         text-decoration: underline;
+      }
+
+      .icon-bar {
+        width: 100%;
+        background-color: #555;
+        overflow: auto;
+      }
+
+      .icon-bar a {
+        float: left;
+        width: 20%;
+        text-align: center;
+        padding: 12px 0;
+        transition: all 0.3s ease;
+        color: white;
+        font-size: 36px;
+      }
+
+      .icon-bar a:hover {
+        background-color: #000;
+      }
+
+      .active {
+        background-color: #237bc8;
       }
     </style>
     <link
@@ -34,7 +58,7 @@
 
   <body>
     <div class="container mt-5">
-      <h1 class="mb-4">Mini Shop-Cats</h1>
+      <h1 class="mb-4" id="top-view">Mini Shop-Cats</h1>
       <!--Navbar-->
       <nav class="navbar navbar-light bg-light">
         <button type="button" class="btn btn-primary" id="go-to-viewcart">
@@ -56,47 +80,62 @@
           <h2>Products count:</h2>
           <ul class="list-group cart-list" id="cart-list"></ul>
 
-          <button
-            id="clear-cart"
-            style="
-              background-color: rgb(45, 124, 221);
-              color: whitesmoke;
-              font-size: 20px;
-              border-radius: 10px;
-            "
-          >
-            Clear cart
+          <button type="button" id="clear-cart" class="btn btn-primary btn-sm">
+            Clear Cart
           </button>
-
           <button class="btn btn-success mt-3 w-100" id="go-bottom">
-            Checkout
+            View Cart
           </button>
         </div>
       </div>
     </div>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <!--Icon bar to sepparate the 2 sections-->
+    <div class="icon-bar">
+      <a class="active" href="#"><i class="fa fa-home"></i></a>
+      <a href="#"><i class="fa fa-search"></i></a>
+      <a href="#"><i class="fa fa-envelope"></i></a>
+      <a href="#"><i class="fa fa-globe"></i></a>
+      <a href="#"><i class="fa fa-trash"></i></a>
+    </div>
+
+    <img
+      src="/styles/cute.jpg"
+      width="900px"
+      height="800px"
+      style="margin-top: 50px; margin-left: 500px; border-radius: 20px"
+    />
+
     <!--This is the end cart in  viewcart aka cart2-->
-    <div class="container mt-5 bottomview" id="bottom-view">
+    <div
+      class="container mt-5 bottomview"
+      style="margin-left: 500px"
+      id="bottom-view"
+    >
       <div class="col-md-4">
         <h3 id="total-viewcart">Cart</h3>
         <ul class="list-group cart-list" id="cart-list2"></ul>
 
         <h2 id="count-viewcart">Products count:</h2>
-        <button
-          id="clear-cart2"
-          style="
-            background-color: rgb(45, 124, 221);
-            color: whitesmoke;
-            font-size: 20px;
-            border-radius: 10px;
-          "
-        >
-          Clear cart
+        <button type="button" id="clear-cart2" class="btn btn-primary btn-sm">
+          Clear Cart
         </button>
 
         <button class="btn btn-success mt-3 w-100" id="checkout-btn">
           Checkout
         </button>
       </div>
+    </div>
+    <br>
+    <div class="icon-bar">
+      <a class="active" href="#"><i class="fa fa-home"></i></a>
+      <a href="#"><i class="fa fa-search"></i></a>
+      <a href="#"><i class="fa fa-envelope"></i></a>
+      <a href="#"><i class="fa fa-globe"></i></a>
+      <a href="#"><i class="fa fa-trash"></i></a>
     </div>
     <!--End of floating right cart-->
     <script src="scripts.js"></script>
