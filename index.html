@@ -6,6 +6,9 @@
     <title>Mini Shop</title>
     <link rel="stylesheet" href="/styles/style.css" />
     <style>
+      html {
+        scroll-behavior: smooth;
+      }
       .cart-list {
         max-height: 200px;
         overflow-y: auto;
@@ -15,6 +18,17 @@
         width: 700px;
         border: 2px solid black;
         overflow-y: auto;
+      }
+      #cart-list3 {
+        max-height: 500px;
+        width: 700px;
+        border: 2px solid black;
+        overflow-y: auto;
+      }
+      .viewCartSection {
+        margin-left: 600px;
+        margin-top: 100px;
+        margin-bottom: 100px;
       }
       h1 {
         font-style: oblique;
@@ -64,6 +78,13 @@
         background-color: rgba(252, 252, 253, 0.44);
         background-color: rgba(217, 230, 240, 0.829);
       }
+      .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+      }
 
       .close {
         color: rgb(7, 7, 7);
@@ -87,7 +108,7 @@
   </head>
 
   <body>
-    <!--Modal exercise <button id="myBtn">Open Modal</button>-->
+    <!--Modal exercise <button id="myBtn">Open Modal</button> &times;-->
 
     <div id="myModal" class="modal">
       <div
@@ -103,8 +124,14 @@
           margin-top: 100px;
         "
       >
-        <span class="close">&times;</span>
-        <p>Some text in the Modal..</p>
+        <span class="close">Exit</span>
+        
+        <button type="button" class="close" style="margin-right: 200px; margin-top: 20px;">Cancel</button>
+
+        <p id="success-message" class="succes"></p>
+        <p id="checkout-display" class="checkoutdisplay" style="font-size: 40px; font-weight: bolder;"></p>
+        <button type="button" class="btn btn-success" id="last-checkout">Checkout</button>
+      
       </div>
     </div>
     <!--End of modal experiment-->
@@ -112,7 +139,7 @@
     <div class="container mt-5">
       <h1 class="mb-4" id="top-view">Mini Shop-Cats</h1>
       <!--Navbar-->
-      <nav class="navbar navbar-light bg-light">
+      <nav class="navbar navbar-light bg-light productsShow">
         <button type="button" class="btn btn-primary" id="go-to-viewcart">
           <img src="/styles/cart.png" width="50px" height="50px" />
           Number of products in cart
@@ -121,7 +148,7 @@
         </button>
       </nav>
       <!--Navbar end-->
-
+      <!--Start of Products Section-->
       <div class="row">
         <div class="col-md-8">
           <div class="row" id="product-list"></div>
@@ -129,14 +156,13 @@
 
         <div class="col-md-4">
           <h3>Cart</h3>
-          <h2>Products count:</h2>
           <ul class="list-group cart-list" id="cart-list"></ul>
-
+          <!--
           <button type="button" id="clear-cart" class="btn btn-primary btn-sm">
             Clear Cart
-          </button>
+          </button>-->
           <button class="btn btn-success mt-3 w-100" id="go-bottom">
-            View Cart
+            Checkout
           </button>
         </div>
       </div>
@@ -145,7 +171,48 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
-    <!--Icon bar to sepparate the 2 sections-->
+    <!--Icon bar to sepparate the Products section from the ViewCart section: MIDDLE SECTION-->
+
+    <div class="icon-bar">
+      <a class="active" href="#"><i class="fa fa-home"></i></a>
+      <a href="#"><i class="fa fa-search"></i></a>
+      <a href="#"><i class="fa fa-envelope"></i></a>
+      <a href="#"><i class="fa fa-globe"></i></a>
+      <a href="#"><i class="fa fa-trash"></i></a>
+    </div>
+    <br />
+    <img
+      src="/styles/cute.jpg"
+      width="900px"
+      height="800px"
+      style="margin-top: 50px; margin-left: 500px; border-radius: 20px"
+    />
+    <br />
+
+    <div class="ViewCartSection container mt-5">
+      <div class="col-md-4">
+        <h3 style="width: 700px" id="totalsum-viewcart">ViewCart</h3>
+        <h2 style="width: 700px">Products count:</h2>
+        <ul class="list-group" id="cart-list3"></ul>
+
+        <button
+          type="button"
+          id="clear-cart"
+          class="btn btn-primary btn-sm butonas"
+        >
+          Clear Cart
+        </button>
+        <button
+          style="margin-bottom: 100px"
+          class="btn btn-success mt-3 w-100"
+          id="go-checkout"
+        >
+          Checkout
+        </button>
+      </div>
+    </div>
+
+    <!--Icon bar to sepparate the  Viewcart section from Checkout Section-->
     <div class="icon-bar">
       <a class="active" href="#"><i class="fa fa-home"></i></a>
       <a href="#"><i class="fa fa-search"></i></a>
@@ -161,18 +228,22 @@
       style="margin-top: 50px; margin-left: 500px; border-radius: 20px"
     />
 
-    <!--This is the end cart in  viewcart aka cart2-->
+    <!--This is the end cart in  Checkout Area aka cart2-->
     <div
       class="container mt-5 bottomview"
       style="margin-left: 500px"
       id="bottom-view"
     >
-      <div class="col-md-4">
+      <div class="col-md-4" id="last-section">
         <h3 id="total-viewcart" style="width: 700px">Cart</h3>
         <ul class="list-group cart-list" id="cart-list2"></ul>
 
         <h2 id="count-viewcart" style="width: 700px">Products count:</h2>
-        <button type="button" id="clear-cart2" class="btn btn-primary btn-sm">
+        <button
+          type="button"
+          id="clear-cart2"
+          class="btn btn-primary btn-sm goToTop"
+        >
           Clear Cart
         </button>
 
@@ -190,13 +261,13 @@
       <a href="#"><i class="fa fa-globe"></i></a>
       <a href="#"><i class="fa fa-trash"></i></a>
     </div>
-    <!--End of floating right cart-->
+
     <script src="scripts.js"></script>
 
-    <script
+    <!-- <script
       src="/docs/5.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
-    ></script>
+    ></script> -->
   </body>
 </html>
