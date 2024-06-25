@@ -117,7 +117,7 @@
           margin: auto;
           border: 1px solid black;
           width: 40%;
-          height: 70%;
+          height: 80%;
           margin-left: 500px;
           margin-right: 100px;
           text-align: center;
@@ -125,19 +125,46 @@
         "
       >
         <span class="close">Exit</span>
-        
-        <button type="button" class="close" style="margin-right: 200px; margin-top: 20px;">Cancel</button>
 
-        <p id="success-message" class="succes"></p>
-        <p id="checkout-display" class="checkoutdisplay" style="font-size: 40px; font-weight: bolder;"></p>
-        <button type="button" class="btn btn-success" id="last-checkout">Checkout</button>
-      
+        <button
+          type="button"
+          class="close"
+          style="margin-right: 200px; margin-top: 20px"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn btn-success"
+          id="last-checkout"
+          style="margin-top: 30px"
+        >
+          Checkout
+        </button>
+
+        <p id="success-message" class="succes" style="margin-top:60px;color:rgb(120, 5, 5)"></p>
+        <p
+          id="checkout-display"
+          class="checkoutdisplay"
+          style="font-size: 30px; font-weight: bolder;margin-top:60px"
+        ></p>
+
+        <p
+          id="productsShow"
+          style="margin-left: 50px; font-size: 20px; font-weight: bold; margin-top:50px"
+        ></p>
       </div>
     </div>
     <!--End of modal experiment-->
 
     <div class="container mt-5">
-      <h1 class="mb-4" id="top-view">Mini Shop-Cats</h1>
+      <h1
+        class="mb-4"
+        id="top-view"
+        style="margin-top: 50px; margin-bottom: 60px"
+      >
+        Mini Shop-Cats
+      </h1>
       <!--Navbar-->
       <nav class="navbar navbar-light bg-light productsShow">
         <button type="button" class="btn btn-primary" id="go-to-viewcart">
@@ -196,20 +223,54 @@
         <ul class="list-group" id="cart-list3"></ul>
 
         <button
-          type="button"
-          id="clear-cart"
-          class="btn btn-primary btn-sm butonas"
-        >
-          Clear Cart
-        </button>
-        <button
-          style="margin-bottom: 100px"
           class="btn btn-success mt-3 w-100"
+          style="margin-bottom: 30px"
           id="go-checkout"
         >
           Checkout
         </button>
       </div>
+      <button
+        type="button"
+        id="viewcart-open"
+        class="btn btn-primary btn-sm"
+        style="margin-bottom: 100px"
+      >
+        ClearCart
+      </button>
+      <!--Modal for Viewcart-->
+      <div id="myModal2" class="modal2">
+        <div
+          style="
+            background-color: rgb(237, 108, 205);
+            margin: auto;
+            border: 1px solid black;
+            width: 40%;
+            height: 150px;
+            text-align: center;
+            margin-bottom: 50px;
+          "
+        >
+          <span class="close2"></span>
+
+          <p style="font-size: 40px">Emmpty cart or not?</p>
+          <button
+            type="button"
+            class="close2"
+            style="margin-right: 200px; margin-top: 20px"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            id="clear-cart"
+            class="btn btn-primary btn-sm butonas"
+          >
+            Clear Cart
+          </button>
+        </div>
+      </div>
+      <!--End of Modal for Viewcart-->
     </div>
 
     <!--Icon bar to sepparate the  Viewcart section from Checkout Section-->
@@ -239,6 +300,7 @@
         <ul class="list-group cart-list" id="cart-list2"></ul>
 
         <h2 id="count-viewcart" style="width: 700px">Products count:</h2>
+
         <button
           type="button"
           id="clear-cart2"

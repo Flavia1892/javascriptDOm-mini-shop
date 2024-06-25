@@ -110,7 +110,7 @@ function renderCart() {
   butonViewCart.addEventListener("click", (event) => {
     event.preventDefault();
 
-    ViewCartBottomView.scrollIntoView({ behavior: "smooth" });
+    ViewCartBottomView.scrollIntoView({});
   });
 
   //here we make the function for the navbar button to get us to the cart in Vewcart Bottom Section of the page
@@ -128,7 +128,7 @@ function renderCart() {
 
 //Render the Checkout Cart
 //experiemtn
-function rendercart2() {
+function renderCheckoutCart() {
   const cartList2 = document.getElementById("cart-list2");
 
   cartList2.innerHTML = cart
@@ -157,6 +157,7 @@ function rendercart2() {
     });
   });
   document.querySelectorAll(".clear-cart").forEach((button) => {
+    //here we remove an entire row of the Product Id
     button.addEventListener("click", (event) => {
       // ma uit in attribute - acolo am pus id-ul produsului ca informatie
       // si preiau cu getAttribute acea valoare
@@ -164,7 +165,7 @@ function rendercart2() {
 
       // o pasez functiei removeFromFromCart ca parametru
 
-      clearProductFromCart(productId);
+      clearProductIdFromCart(productId);
     });
   });
 
@@ -189,68 +190,68 @@ function rendercart2() {
   const totalProducts = document.getElementById("count-viewcart");
   totalProducts.innerHTML = `<h2>Products count: ${totalProductsQuantityCart()} </h2>`;
 
-  const buttonClearCart = document.getElementById("clear-cart2");
+  const buttonClearCart = document.getElementById("clear-cart2"); //Here we clear the cart entirely
 
-  buttonClearCart.addEventListener(
-    "click",
-    function () {
-      products = [
-        {
-          id: 1,
-          name: "Product 1",
-          price: 10,
-          quantity: 2,
-          description: "baby kittens of European descent",
-          quantitycount: 0,
-        },
-        {
-          id: 2,
-          name: "Product 2",
-          price: 20,
-          quantity: 6,
-          description: "Bombay breed of cat-female",
-          quantitycount: 0,
-        },
-        {
-          id: 3,
-          name: "Product 3",
-          price: 30,
-          quantity: 5,
-          description: "British short-har male breed",
-          quantitycount: 0,
-        },
-        {
-          id: 4,
-          name: "Product 4",
-          price: 30,
-          quantity: 4,
-          description: "Commom European orange tabby breed; both sexes",
-          quantitycount: 0,
-        },
-        {
-          id: 5,
-          name: "Product 5",
-          price: 30,
-          quantity: 3,
-          description: "Ragdoll fluffy and mild tempered female breed",
-          quantitycount: 0,
-        },
-      ];
-      renderProducts();
-      renderCart();
-      showCart2();
-      rendercart3();
-      const title = document.querySelector("h3");
-      title.innerHTML = "<h3>Cart</h3>";
-      cart = [];
-      const counterNav = document.getElementById("counter-products"); //here we show the number of items in cart in the navbar
-      counterNav.innerText = `0`;
-    },
-    true
-  );
+  buttonClearCart.addEventListener("click", function () {
+    products = [
+      {
+        id: 1,
+        name: "Product 1",
+        price: 10,
+        quantity: 2,
+        description: "baby kittens of European descent",
+        quantitycount: 0,
+      },
+      {
+        id: 2,
+        name: "Product 2",
+        price: 20,
+        quantity: 6,
+        description: "Bombay breed of cat-female",
+        quantitycount: 0,
+      },
+      {
+        id: 3,
+        name: "Product 3",
+        price: 30,
+        quantity: 5,
+        description: "British short-har male breed",
+        quantitycount: 0,
+      },
+      {
+        id: 4,
+        name: "Product 4",
+        price: 30,
+        quantity: 4,
+        description: "Commom European orange tabby breed; both sexes",
+        quantitycount: 0,
+      },
+      {
+        id: 5,
+        name: "Product 5",
+        price: 30,
+        quantity: 3,
+        description: "Ragdoll fluffy and mild tempered female breed",
+        quantitycount: 0,
+      },
+    ];
+    renderProducts();
+    cart = [];
+    renderCart();
+    showCheckoutCart();
+    renderViewCart();
+    const title = document.querySelector("h3");
+    title.innerHTML = "<h3>Cart</h3>";
+
+    const counterNav = document.getElementById("counter-products"); //here we show the number of items in cart in the navbar
+    counterNav.innerText = `0`;
+
+    let goToTop = document.getElementById("top-view"); //scroll back to top after checout
+    goToTop.scrollIntoView();
+  });
 }
 
-function showCart2() {
+function showCheckoutCart() {
   const cartList2 = document.getElementById("cart-list2");
 
   cartList2.innerHTML = cart
@@ -290,7 +291,7 @@ function goToTop() {
 }
 
 //Here we render the ViewCart cart
-function rendercart3() {
+function renderViewCart() {
   const cartList3 = document.getElementById("cart-list3");
 
   cartList3.innerHTML = cart
@@ -315,7 +316,7 @@ function rendercart3() {
 
       // o pasez functiei removeFromFromCart ca parametru
 
-      clearProductFromCart(productId);
+      clearProductIdFromCart(productId);
     });
   });
 
@@ -382,19 +383,51 @@ function rendercart3() {
           quantitycount: 0,
         },
       ];
-
+      cart = [];
       renderProducts();
       resetCart();
-      showCart2();
-      rendercart3();
+      showCheckoutCart();
+      renderViewCart();
       const title = document.querySelector("h3");
       title.innerHTML = "<h3>Cart</h3>";
-      cart = [];
+
       const counterNav = document.getElementById("counter-products"); //here we show the number of items in cart in the navbar
       counterNav.innerText = `0`;
+      modal2.style.display = "none";
     },
     goToTop()
   );
+  //Modal creation
+  let modal2 = document.getElementById("myModal2");
+  //modal2.style.display = "none";
+
+  // Get the button that opens the modal
+  let btn = document.getElementById("viewcart-open");
+
+  // Get the <span> element that closes the modal
+  let span = document.getElementsByClassName("close2")[1];
+  let cancelBtn = document.getElementsByClassName("close2")[0];
+
+  // When the user clicks the button, open the modal
+  btn.onclick = function () {
+    modal2.style.display = "block";
+  };
+
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function () {
+    modal2.style.display = "none";
+  };
+  cancelBtn.onclick = function () {
+    modal2.style.display = "none";
+  };
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function (event) {
+    if (event.target == modal2) {
+      modal2.style.display = "none";
+    }
+  };
+  //End of modal caaling function
 }
 
 //here we calculate the total vaue of the cart in $
@@ -450,8 +483,8 @@ function addToCart(productId) {
   calculateQuantity(productId);
 
   renderCart(); //view cart in html
-  rendercart2();
-  rendercart3();
+  renderCheckoutCart();
+  renderViewCart();
 
   const totalProducts = document.querySelector("h2");
   totalProducts.innerHTML = `<h2>Products count: ${totalProductsQuantityCart()} </h2>`; //show the toal quantty of products in cart
@@ -476,12 +509,12 @@ function removeFromCart(productId) {
   outOfStock[productId - 1].innerHTML = `Add to Cart`;
 
   renderCart(productId);
-  rendercart2(productId);
-  rendercart3(productId);
+  renderCheckoutCart(productId);
+  renderViewCart(productId);
 }
 
 //Here we remove an entire object from the cart array if the id of object is clicked
-function clearProductFromCart(productId) {
+function clearProductIdFromCart(productId) {
   for (let key in cart) {
     if (cart[key].id === productId) {
       products[cart[key].id - 1].quantity += cart[key].quantitycount;
@@ -489,8 +522,13 @@ function clearProductFromCart(productId) {
     }
     renderProducts();
     renderCart();
-    showCart2();
-    rendercart3();
+    showCheckoutCart();
+    renderViewCart();
+
+    if (cart.length === 0) {
+      let goToTop = document.getElementById("top-view"); //scroll back to top after checout
+      goToTop.scrollIntoView();
+    }
   }
 }
 
@@ -518,7 +556,7 @@ function resetCart() {
       .join("");
 }
 
-function resetCart2() {
+function resetCheckoutCart() {
   const cartList2 = document.getElementById("cart-list2");
 
   cartList2.innerHTML = cart
@@ -546,17 +584,11 @@ function getModal() {
   //Modal creation
   let modal = document.getElementById("myModal");
 
-  // Get the button that opens the modal
-  let btn = document.querySelector(".myBtn");
+  modal.style.display = "block";
 
   // Get the <span> element that closes the modal
   let span = document.getElementsByClassName("close")[1];
   let cancelBtn = document.getElementsByClassName("close")[0];
-
-  // When the user clicks the button, open the modal
-  btn.onclick = function () {
-    modal.style.display = "block";
-  };
 
   // When the user clicks on <span> (x), close the modal
   span.onclick = function () {
@@ -568,6 +600,10 @@ function getModal() {
   cancelBtn.onclick = function () {
     document.querySelector(".succes").innerHTML = "";
     document.querySelector(".checkoutdisplay").innerHTML = "";
+
+    let productsPurchased = document.getElementById("productsShow");
+    productsPurchased.innerHTML = ``;
+
     modal.style.display = "none";
   };
 
@@ -575,41 +611,18 @@ function getModal() {
   window.onclick = function (event) {
     if (event.target == modal) {
       modal.style.display = "none";
+
+      let productsPurchased = document.getElementById("productsShow");
+      productsPurchased.innerHTML = ``;
     }
   };
 } //End of modal caaling function
 
 //Here we checkout the cart and reset both cart and products array
-
-function checkout() {
-  getModal();
-
-  let butonInModal1 = document.getElementById("last-checkout");
-  let sum = totalvalueOfCart();
-
-  butonInModal1.addEventListener("click", () => {
-    let scris = document.getElementById("success-message");
-    scris.style.alignItems = "center";
-    scris.style.fontSize = "40px";
-    scris.style.marginTop = "200px";
-    scris.innerHTML = `Order has been placed!<br>
-    Purchase successful`;
-
-    let scris2 = document.getElementById("checkout-display");
-    scris2.innerHTML = `Total cost= ${sum} $`;
-
-    resetAll();
-
-    let goToTop = document.getElementById("top-view"); //scroll back to top after checout
-    goToTop.scrollIntoView();
-  });
-}
-
 function resetAll() {
   const totalProducts = document.querySelectorAll("h2");
   totalProducts.innerHTML = `<h2>Products count: ${totalProductsQuantityCart()} </h2>`;
-  // const totalProducts2=document.getElementById('count-viewcart');
-  // totalProducts2.innerHTML=`<h2>Products count: ${totalProductsQuantityCart()} </h2>`;
+
   //afisare the quantityof the  entire cart in HTML
 
   products = [
@@ -672,13 +685,49 @@ function resetAll() {
   // si facem reset la cart
 
   resetCart();
-  resetCart2();
-  rendercart3();
+  resetCheckoutCart();
+  renderViewCart();
 
   const counterNav = document.getElementById("counter-products"); //here we show the number of items in cart in the navbar
   counterNav.innerText = `${totalProductsQuantityCart()}`;
 }
 
+function checkout() {
+  getModal();
+
+  let butonInModal1 = document.getElementById("last-checkout");
+  let sum = totalvalueOfCart();
+
+  butonInModal1.addEventListener("click", () => {
+    let scris = document.getElementById("success-message");
+    scris.style.alignItems = "center";
+    scris.style.fontSize = "40px";
+    scris.innerHTML = `Order has been placed!<br>
+    Purchase successful`;
+    let scris2 = document.getElementById("checkout-display");
+    scris2.innerHTML = `Total cost= ${sum} $`;
+
+    //Here we display in modal of the Checkout Cart the products that were purchased
+    let node = document.createElement("productsShow");
+    for (let key in cart) {
+      let textnode = document.createTextNode(
+        `      ProdID:${cart[key].id}------Quant: ${cart[key].quantitycount}|`
+      );
+
+      node.appendChild(textnode);
+      document.getElementById("productsShow").appendChild(node);
+    }
+
+    resetAll();
+
+    let goToTop = document.getElementById("top-view"); //scroll back to top after checout
+    goToTop.scrollIntoView();
+  });
+}
+
 document.getElementById("checkout-btn").addEventListener("click", checkout);
 
 renderProducts();
+
+let modal2 = document.getElementById("myModal2");
+modal2.style.display = "none";
