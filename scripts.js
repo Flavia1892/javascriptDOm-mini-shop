@@ -397,11 +397,10 @@ function renderViewCart() {
     },
     goToTop()
   );
-  //Modal creation
+  //Modal creation for ViewCart
   let modal2 = document.getElementById("myModal2");
   //modal2.style.display = "none";
 
-  // Get the button that opens the modal
   let btn = document.getElementById("viewcart-open");
 
   // Get the <span> element that closes the modal
@@ -579,7 +578,7 @@ function resetQuant() {
   for (let key in products) products[key].quantitycount = 0;
 }
 
-//Here is the function to call when we want to display the Modal
+//Here is the function to call when we want to display the Modal at yhe Checkout
 function getModal() {
   //Modal creation
   let modal = document.getElementById("myModal");
@@ -597,6 +596,7 @@ function getModal() {
 
     modal.style.display = "none";
   };
+
   cancelBtn.onclick = function () {
     document.querySelector(".succes").innerHTML = "";
     document.querySelector(".checkoutdisplay").innerHTML = "";
@@ -697,6 +697,7 @@ function checkout() {
 
   let butonInModal1 = document.getElementById("last-checkout");
   let sum = totalvalueOfCart();
+  document.getElementById('cancel').style.display = "block";
 
   butonInModal1.addEventListener("click", () => {
     let scris = document.getElementById("success-message");
@@ -708,10 +709,11 @@ function checkout() {
     scris2.innerHTML = `Total cost= ${sum} $`;
 
     //Here we display in modal of the Checkout Cart the products that were purchased
-    let node = document.createElement("productsShow");
+
     for (let key in cart) {
+      let node = document.createElement("li");
       let textnode = document.createTextNode(
-        `      ProdID:${cart[key].id}------Quant: ${cart[key].quantitycount}|`
+        `${cart[key].name}----------ProdID:${cart[key].id}------Quant: ${cart[key].quantitycount}|`
       );
 
       node.appendChild(textnode);
@@ -719,6 +721,7 @@ function checkout() {
     }
 
     resetAll();
+    document.getElementById('cancel').style.display = "none";
 
     let goToTop = document.getElementById("top-view"); //scroll back to top after checout
     goToTop.scrollIntoView();
