@@ -399,8 +399,7 @@ function renderViewCart() {
   );
   //Modal creation for ViewCart
   let modal2 = document.getElementById("myModal2");
-  //modal2.style.display = "none";
-
+  
   let btn = document.getElementById("viewcart-open");
 
   // Get the <span> element that closes the modal
