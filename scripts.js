@@ -188,7 +188,7 @@ function renderCheckoutCart() {
   const totalValue = document.getElementById("total-viewcart"); //here we see the total sum of the cart in the CHECKOUT Cart
   totalValue.innerHTML = `<p style="font-size:30px">ViewCart</p> <b> Total cost: ${totalvalueOfCart()} $</b>`;
 
-  cartSumForModal=totalvalueOfCart();
+  cartSumForModal = totalvalueOfCart(); //here we calculate the sum that will be displayed in the modal
 
   const totalProducts = document.getElementById("count-viewcart");
   totalProducts.innerHTML = `<h2>Products count: ${totalProductsQuantityCart()} </h2>`;
@@ -707,7 +707,7 @@ function getValue() {
     const totalValue = document.getElementById("totalsum-viewcart"); //Display total amount of $ in floating right cart
     totalValue.innerHTML = `<p style="font-size:30px">Cart</p> <b> Total cost: ${sum} $</b>`;
 
-    cartSumForModal=sum;
+    cartSumForModal = sum;
 
     inputField.value = "";
   } else {
@@ -720,7 +720,7 @@ function checkout() {
   getModal();
 
   let butonInModal1 = document.getElementById("last-checkout");
-  let sum = totalvalueOfCart();
+
   document.getElementById("cancel").style.display = "block";
 
   butonInModal1.addEventListener("click", () => {
