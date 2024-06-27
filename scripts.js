@@ -615,7 +615,7 @@ function getModal() {
       productsPurchased.innerHTML = ``;
     }
   };
-} //End of modal caaling function
+} //End of modal caling function
 
 //Here we checkout the cart and reset both cart and products array
 function resetAll() {
