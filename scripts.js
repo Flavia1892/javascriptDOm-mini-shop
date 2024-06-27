@@ -399,7 +399,7 @@ function renderViewCart() {
   );
   //Modal creation for ViewCart
   let modal2 = document.getElementById("myModal2");
-  
+
   let btn = document.getElementById("viewcart-open");
 
   // Get the <span> element that closes the modal
@@ -696,7 +696,7 @@ function checkout() {
 
   let butonInModal1 = document.getElementById("last-checkout");
   let sum = totalvalueOfCart();
-  document.getElementById('cancel').style.display = "block";
+  document.getElementById("cancel").style.display = "block";
 
   butonInModal1.addEventListener("click", () => {
     let scris = document.getElementById("success-message");
@@ -705,7 +705,11 @@ function checkout() {
     scris.innerHTML = `Order has been placed!<br>
     Purchase successful`;
     let scris2 = document.getElementById("checkout-display");
-    scris2.innerHTML = `Total cost= ${sum} $`;
+
+    if(getValue.sum!=0)
+    scris2.innerHTML = `Total cost= ${sum*0.9} $`;
+
+    else scris2.innerHTML = `Total cost= ${sum} $`;
 
     //Here we display in modal of the Checkout Cart the products that were purchased
 
@@ -720,7 +724,7 @@ function checkout() {
     }
 
     resetAll();
-    document.getElementById('cancel').style.display = "none";
+    document.getElementById("cancel").style.display = "none";
 
     let goToTop = document.getElementById("top-view"); //scroll back to top after checout
     goToTop.scrollIntoView();
@@ -733,3 +737,24 @@ renderProducts();
 
 let modal2 = document.getElementById("myModal2");
 modal2.style.display = "none";
+
+function getValue() {
+  let inputField = document.getElementById("myInput");
+  let sum=0;
+
+  let value = inputField.value;
+
+  if (value === "cats10") {
+    sum = totalvalueOfCart() * 0.9;
+    const totalValue1 = document.getElementById("total-viewcart"); //here we see the total sum of the cart in the CHECKOUT Cart
+    totalValue1.innerHTML = `<p style="font-size:30px">ViewCart</p> <b> Total cost: ${sum} $</b>`;
+
+    const totalValue = document.getElementById("totalsum-viewcart"); //Display total amount of $ in floating right cart
+    totalValue.innerHTML = `<p style="font-size:30px">Cart</p> <b> Total cost: ${sum} $</b>`;
+
+    inputField.value = "";
+  } else {
+    inputField.value = "";
+    alert("The code you have entered is not valid");
+  }
+}
