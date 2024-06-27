@@ -42,6 +42,7 @@ let products = [
 ];
 
 let cart = [];
+let cartSumForModal = 0;
 
 function renderProducts() {
   const productList = document.getElementById("product-list");
@@ -186,6 +187,8 @@ function renderCheckoutCart() {
     });
   const totalValue = document.getElementById("total-viewcart"); //here we see the total sum of the cart in the CHECKOUT Cart
   totalValue.innerHTML = `<p style="font-size:30px">ViewCart</p> <b> Total cost: ${totalvalueOfCart()} $</b>`;
+
+  cartSumForModal=totalvalueOfCart();
 
   const totalProducts = document.getElementById("count-viewcart");
   totalProducts.innerHTML = `<h2>Products count: ${totalProductsQuantityCart()} </h2>`;
@@ -690,6 +693,28 @@ function resetAll() {
   const counterNav = document.getElementById("counter-products"); //here we show the number of items in cart in the navbar
   counterNav.innerText = `${totalProductsQuantityCart()}`;
 }
+function getValue() {
+  let inputField = document.getElementById("myInput");
+
+  let value = inputField.value;
+  let sum = 0;
+  if (value === "cats10") {
+    discountCounter = 1;
+    sum = totalvalueOfCart() * 0.9;
+    const totalValue1 = document.getElementById("total-viewcart"); //here we see the total sum of the cart in the CHECKOUT Cart
+    totalValue1.innerHTML = `<p style="font-size:30px">ViewCart</p> <b> Total cost: ${sum} $</b>`;
+
+    const totalValue = document.getElementById("totalsum-viewcart"); //Display total amount of $ in floating right cart
+    totalValue.innerHTML = `<p style="font-size:30px">Cart</p> <b> Total cost: ${sum} $</b>`;
+
+    cartSumForModal=sum;
+
+    inputField.value = "";
+  } else {
+    inputField.value = "";
+    alert("The code you have entered is not valid");
+  }
+}
 
 function checkout() {
   getModal();
@@ -705,11 +730,7 @@ function checkout() {
     scris.innerHTML = `Order has been placed!<br>
     Purchase successful`;
     let scris2 = document.getElementById("checkout-display");
-
-    if(getValue.sum!=0)
-    scris2.innerHTML = `Total cost= ${sum*0.9} $`;
-
-    else scris2.innerHTML = `Total cost= ${sum} $`;
+    scris2.innerHTML = `Total cost= ${cartSumForModal} $`;
 
     //Here we display in modal of the Checkout Cart the products that were purchased
 
@@ -724,6 +745,7 @@ function checkout() {
     }
 
     resetAll();
+
     document.getElementById("cancel").style.display = "none";
 
     let goToTop = document.getElementById("top-view"); //scroll back to top after checout
@@ -737,24 +759,3 @@ renderProducts();
 
 let modal2 = document.getElementById("myModal2");
 modal2.style.display = "none";
-
-function getValue() {
-  let inputField = document.getElementById("myInput");
-  let sum=0;
-
-  let value = inputField.value;
-
-  if (value === "cats10") {
-    sum = totalvalueOfCart() * 0.9;
-    const totalValue1 = document.getElementById("total-viewcart"); //here we see the total sum of the cart in the CHECKOUT Cart
-    totalValue1.innerHTML = `<p style="font-size:30px">ViewCart</p> <b> Total cost: ${sum} $</b>`;
-
-    const totalValue = document.getElementById("totalsum-viewcart"); //Display total amount of $ in floating right cart
-    totalValue.innerHTML = `<p style="font-size:30px">Cart</p> <b> Total cost: ${sum} $</b>`;
-
-    inputField.value = "";
-  } else {
-    inputField.value = "";
-    alert("The code you have entered is not valid");
-  }
-}
