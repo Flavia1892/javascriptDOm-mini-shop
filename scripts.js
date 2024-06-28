@@ -108,6 +108,7 @@ function renderCart() {
   const ViewCartBottomView = document.getElementById("bottom-view");
 
   //here we made function to go to checkout area from right floating cart button Checkout
+
   butonViewCart.addEventListener("click", (event) => {
     event.preventDefault();
 
@@ -709,6 +710,9 @@ function getValue() {
     cartSumForModal = sum;
 
     inputField.value = "";
+    alert(
+      `Your code has been applied succesful too the cart; proceed to checkout`
+    );
   } else {
     inputField.value = "";
     alert("The code you have entered is not valid;please insert a valid code");
@@ -716,45 +720,44 @@ function getValue() {
 }
 
 function checkout() {
+  if (cart.length > 0) {
+    getModal();
 
-  if(cart.length>0){
-  getModal();
+    let butonInModal1 = document.getElementById("last-checkout"); //get the checkout button of the modal
+    butonInModal1.style.display = "block"; //display the button in the modal
+    document.getElementById("cancel").style.display = "block"; //get the cancel button of the modal
 
-  let butonInModal1 = document.getElementById("last-checkout");
-  butonInModal1.style.display = "block";
-
-  document.getElementById("cancel").style.display = "block";
-
-  butonInModal1.addEventListener("click", () => {
-    let scris = document.getElementById("success-message");
-    scris.style.alignItems = "center";
-    scris.style.fontSize = "40px";
-    scris.innerHTML = `Order has been placed!<br>
+    //Function on the click checkout modal button
+    butonInModal1.addEventListener("click", () => {
+      let scris = document.getElementById("success-message");
+      scris.style.alignItems = "center";
+      scris.style.fontSize = "40px";
+      scris.innerHTML = `Order has been placed!<br>
     Purchase successful`;
-    let scris2 = document.getElementById("checkout-display");
-    scris2.innerHTML = `Total cost= ${cartSumForModal} $`;
+      let scris2 = document.getElementById("checkout-display");
+      scris2.innerHTML = `Total cost= ${cartSumForModal} $`;
 
-    //Here we display in modal of the Checkout Cart the products that were purchased
+      //Here we display in modal of the Checkout Cart the products that were purchased
 
-    for (let key in cart) {
-      let node = document.createElement("li");
-      let textnode = document.createTextNode(
-        `${cart[key].name}----------ProdID:${cart[key].id}------Quant: ${cart[key].quantitycount}|`
-      );
+      for (let key in cart) {
+        let node = document.createElement("li");
+        let textnode = document.createTextNode(
+          `${cart[key].name}----------ProdID:${cart[key].id}------Quant: ${cart[key].quantitycount}|`
+        );
 
-      node.appendChild(textnode);
-      document.getElementById("productsShow").appendChild(node);
-    }
+        node.appendChild(textnode);
+        document.getElementById("productsShow").appendChild(node);
+      }
 
-    resetAll();
+      resetAll();
 
-    document.getElementById("cancel").style.display = "none";
-    butonInModal1.style.display = "none";
+      document.getElementById("cancel").style.display = "none";
+      butonInModal1.style.display = "none";
 
-    let goToTop = document.getElementById("top-view"); //scroll back to top after checout
-    goToTop.scrollIntoView();
-  });
-}
+      let goToTop = document.getElementById("top-view"); //scroll back to top after checout
+      goToTop.scrollIntoView();
+    });
+  }
 }
 
 document.getElementById("checkout-btn").addEventListener("click", checkout);
