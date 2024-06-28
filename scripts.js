@@ -18,7 +18,7 @@ let products = [
   {
     id: 3,
     name: "Product 3",
-    price: 30,
+    price: 40,
     quantity: 5,
     description: "British short-har male breed",
     quantitycount: 0,
@@ -34,7 +34,7 @@ let products = [
   {
     id: 5,
     name: "Product 5",
-    price: 30,
+    price: 35,
     quantity: 3,
     description: "Ragdoll fluffy and mild tempered female breed",
     quantitycount: 0,
@@ -52,12 +52,12 @@ function renderProducts() {
           <div class="col-md-4 mb-4">
               <div class="card">
                   <div class="card-body">
-                      <h5 class="card-title">${product.name}</h5>
+                      <h5 class="card-title" style="background-color:wheat">${product.name}</h5>
                       <p style="font-size:13px">Product ID:${product.id}</p>
                       <img height=160px width=130px src="/styles/${product.id}.jpg" alt='poza produs'</img>                       
                         <b><p class="card-text">$${product.price}</p></b> 
-                         <p class="card-text">Description: ${product.description}</p>                       
-                      <p class="card-text" id="quantity">Quantity: ${product.quantity}</p>
+                         <p class="card-text" style="font-style: oblique">Description: ${product.description}</p>                       
+                      <p class="card-text" id="quantity" style="font-size:19px">Quantity: ${product.quantity}</p>
                       <button class="btn btn-primary add-to-cart" id="addToCart"data-id="${product.id}">Add to Cart</button>
                   </div>
               </div>
@@ -84,6 +84,9 @@ function renderProducts() {
 }
 //Render the right floating cart
 function renderCart() {
+  let rightCart = document.querySelector("#rightCart");
+  rightCart.style.display = "block";
+
   const cartList = document.getElementById("cart-list");
 
   cartList.innerHTML = cart
@@ -129,7 +132,7 @@ function renderCart() {
 //
 
 //Render the Checkout Cart
-//experiemtn
+
 function renderCheckoutCart() {
   const cartList2 = document.getElementById("cart-list2");
 
@@ -216,7 +219,7 @@ function renderCheckoutCart() {
       {
         id: 3,
         name: "Product 3",
-        price: 30,
+        price: 40,
         quantity: 5,
         description: "British short-har male breed",
         quantitycount: 0,
@@ -232,7 +235,7 @@ function renderCheckoutCart() {
       {
         id: 5,
         name: "Product 5",
-        price: 30,
+        price: 25,
         quantity: 3,
         description: "Ragdoll fluffy and mild tempered female breed",
         quantitycount: 0,
@@ -364,7 +367,7 @@ function renderViewCart() {
         {
           id: 3,
           name: "Product 3",
-          price: 30,
+          price: 40,
           quantity: 5,
           description: "British short-har male breed",
           quantitycount: 0,
@@ -380,7 +383,7 @@ function renderViewCart() {
         {
           id: 5,
           name: "Product 5",
-          price: 30,
+          price: 25,
           quantity: 3,
           description: "Ragdoll fluffy and mild tempered female breed",
           quantitycount: 0,
@@ -519,6 +522,7 @@ function clearProductIdFromCart(productId) {
   for (let key in cart) {
     if (cart[key].id === productId) {
       products[cart[key].id - 1].quantity += cart[key].quantitycount;
+      cart[key].quantitycount=0;
       cart.splice(key, 1);
     }
     renderProducts();
@@ -534,6 +538,7 @@ function clearProductIdFromCart(productId) {
 }
 
 function resetCart() {
+  document.querySelector("#rightCart").style.display = "none";
   const cartList = document.getElementById("cart-list");
   cartList.innerHTML =
     // folosind cart object, iterand prin el cu map
@@ -647,7 +652,7 @@ function resetAll() {
     {
       id: 3,
       name: "Product 3",
-      price: 30,
+      price: 40,
       quantity: 5,
       description: "British short-har male breed",
       quantitycount: 0,
@@ -663,7 +668,7 @@ function resetAll() {
     {
       id: 5,
       name: "Product 5",
-      price: 30,
+      price: 25,
       quantity: 3,
       description: "Ragdoll fluffy and mild tempered female breed",
       quantitycount: 0,
@@ -757,12 +762,14 @@ function checkout() {
       let goToTop = document.getElementById("top-view"); //scroll back to top after checout
       goToTop.scrollIntoView();
     });
-  }
+  } else alert("Your cart is empty!");
 }
 
 document.getElementById("checkout-btn").addEventListener("click", checkout);
 
 renderProducts();
+
+document.querySelector("#rightCart").style.display = "none";
 
 let modal2 = document.getElementById("myModal2");
 modal2.style.display = "none";

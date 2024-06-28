@@ -8,6 +8,7 @@
     <style>
       html {
         scroll-behavior: smooth;
+        overflow-x: hidden;
       }
 
       .cart-list {
@@ -32,16 +33,19 @@
         margin-bottom: 100px;
       }
       h1 {
+        background-color: rgb(244, 236, 222);
+        width: 100%;
         font-style: oblique;
-        text-decoration: underline;
         font-family: "Times New Roman", Times, serif;
-        margin-left: 460px;
+        text-align: center;
+        padding-top: 30px;
+        padding-bottom: 30px;
       }
       h2 {
-        background-color: rgb(227, 239, 246);
+        background-color: rgb(245, 235, 216);
       }
       h3 {
-        background-color: rgb(227, 239, 246);
+        background-color: rgb(245, 235, 216);
         text-decoration: underline;
       }
 
@@ -68,13 +72,25 @@
       .active {
         background-color: #237bc8;
       }
+      .first-picture {
+        /* Set up a transition for all property changes that takes place over 1 second */
+
+        width: 700px;
+        height: 600px;
+        margin-top: 50px;
+        margin-left: 650px;
+        border-radius: 20px;
+
+        /* Set the size of the div, otherwise it will collapse because there's no content
+       in its foreground */
+      }
 
       .modal {
         display: none;
         position: fixed;
         z-index: 1;
-        width: 200px;
-        height: 300px;
+        width: 100px;
+        height: 150px;
         overflow: auto;
         background-color: rgba(252, 252, 253, 0.44);
         background-color: rgba(217, 230, 240, 0.829);
@@ -99,13 +115,13 @@
         margin: auto;
         padding: 20px;
         border: 1px solid #888;
-        width: 80%;
+        width: 60%;
       }
 
       .close {
         color: rgb(7, 7, 7);
         float: right;
-        font-size: 28px;
+        font-size: 50px;
         font-weight: bold;
       }
       .close:hover,
@@ -113,6 +129,12 @@
         color: #000;
         text-decoration: none;
         cursor: pointer;
+      }
+      .card {
+        transition: transform 0.2s;
+      }
+      .card:hover {
+        transform: scale(1.03);
       }
     </style>
     <link
@@ -133,19 +155,23 @@
           margin: auto;
           border: 1px solid black;
           width: 40%;
-          height: 80%;
-          margin-left: 500px;
+          height: 60%;
+          margin-left: 610px;
           margin-right: 100px;
           text-align: center;
           margin-top: 100px;
         "
       >
-        <span class="close">Exit</span>
+        <span class="close"> &times</span>
 
         <button
           type="button"
-          class="close"
-          style="margin-right: 200px; margin-top: 20px"
+          class="close btn btn-success"
+          style="
+            margin-right: 200px;
+            margin-top: 30px;
+            background-color: rgb(166, 110, 6);
+          "
           id="cancel"
         >
           Cancel
@@ -178,14 +204,8 @@
     </div>
     <!--End of modal experiment-->
 
+    <h1 id="top-view">Mini Shop-Cats</h1>
     <div class="container mt-5">
-      <h1
-        class="mb-4"
-        id="top-view"
-        style="margin-top: 50px; margin-bottom: 60px"
-      >
-        Mini Shop-Cats
-      </h1>
       <!--Navbar-->
       <nav class="navbar navbar-light bg-light productsShow">
         <button type="button" class="btn btn-primary" id="go-to-viewcart">
@@ -202,7 +222,7 @@
           <div class="row" id="product-list"></div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-4" id="rightCart">
           <h3>Cart</h3>
           <ul class="list-group cart-list" id="cart-list"></ul>
 
@@ -218,23 +238,93 @@
     />
     <!--Icon bar to sepparate the Products section from the ViewCart section: MIDDLE SECTION-->
 
-    <div class="icon-bar">
-      <a class="active" href="#"><i class="fa fa-home"></i></a>
-      <a href="#"><i class="fa fa-search"></i></a>
-      <a href="#"><i class="fa fa-envelope"></i></a>
-      <a href="#"><i class="fa fa-globe"></i></a>
-      <a href="#"><i class="fa fa-trash"></i></a>
+    <div style="display: flex; flex-direction: row">
+      <div>
+        <img
+          src="/styles/catpaw.jpg"
+          width="200px"
+          height="200px"
+          alt="banner of catpaws"
+        />
+      </div>
+      <div>
+        <img
+          src="/styles/catpaw.jpg"
+          width="200px"
+          height="200px"
+          alt="banner of catpaws"
+        />
+      </div>
+      <div>
+        <img
+          src="/styles/catpaw.jpg"
+          width="200px"
+          height="200px"
+          alt="banner of catpaws"
+        />
+      </div>
+      <div>
+        <img
+          src="/styles/catpaw.jpg"
+          width="200px"
+          height="200px"
+          alt="banner of catpaws"
+        />
+      </div>
+      <div>
+        <img
+          src="/styles/catpaw.jpg"
+          width="200px"
+          height="200px"
+          alt="banner of catpaws"
+        />
+      </div>
+      <div>
+        <img
+          src="/styles/catpaw.jpg"
+          width="200px"
+          height="200px"
+          alt="banner of catpaws"
+        />
+      </div>
+      <div>
+        <img
+          src="/styles/catpaw.jpg"
+          width="200px"
+          height="200px"
+          alt="banner of catpaws"
+        />
+      </div>
+      <div>
+        <img
+          src="/styles/catpaw.jpg"
+          width="200px"
+          height="200px"
+          alt="banner of catpaws"
+        />
+      </div>
+      <div>
+        <img
+          src="/styles/catpaw.jpg"
+          width="200px"
+          height="200px"
+          alt="banner of catpaws"
+        />
+      </div>
+      <div>
+        <img
+          src="/styles/catpaw.jpg"
+          width="200px"
+          height="200px"
+          alt="banner of catpaws"
+        />
+      </div>
     </div>
     <br />
-    <img
-      src="/styles/cute.jpg"
-      width="900px"
-      height="800px"
-      style="margin-top: 50px; margin-left: 500px; border-radius: 20px"
-    />
+    <img class="first-picture" src="/styles/cute.jpg" />
     <br />
 
-    <div class="ViewCartSection container mt-5">
+    <div class="ViewCartSection container mt-5" style="margin-left: 640px">
       <div class="col-md-4">
         <h3 style="width: 700px" id="totalsum-viewcart">ViewCart</h3>
         <h2 style="width: 700px">Products count:</h2>
@@ -260,10 +350,10 @@
       <div id="myModal2" class="modal">
         <div
           style="
-            background-color: rgb(237, 108, 205);
+            background-color: rgb(229, 217, 195);
             margin-top: 200px;
-            margin-left: 500px;
-            border: 5px solid black;
+            margin-left: 610px;
+            border: 2px solid black;
             width: 40%;
             height: 150px;
             text-align: center;
@@ -272,7 +362,7 @@
         >
           <span class="close2"></span>
 
-          <p style="font-size: 40px">Emmpty cart or not?</p>
+          <p style="font-size: 40px">Are you sure you want to empty the cart?</p>
           <button
             type="button"
             class="close2"
@@ -293,12 +383,87 @@
     </div>
 
     <!--Icon bar to sepparate the  Viewcart section from Checkout Section-->
-    <div class="icon-bar">
-      <a class="active" href="#"><i class="fa fa-home"></i></a>
-      <a href="#"><i class="fa fa-search"></i></a>
-      <a href="#"><i class="fa fa-envelope"></i></a>
-      <a href="#"><i class="fa fa-globe"></i></a>
-      <a href="#"><i class="fa fa-trash"></i></a>
+    <div style="display: flex; flex-direction: row">
+      <div>
+        <img
+          src="/styles/catpaw.jpg"
+          width="200px"
+          height="200px"
+          alt="banner of catpaws"
+        />
+      </div>
+      <div>
+        <img
+          src="/styles/catpaw.jpg"
+          width="200px"
+          height="200px"
+          alt="banner of catpaws"
+        />
+      </div>
+      <div>
+        <img
+          src="/styles/catpaw.jpg"
+          width="200px"
+          height="200px"
+          alt="banner of catpaws"
+        />
+      </div>
+      <div>
+        <img
+          src="/styles/catpaw.jpg"
+          width="200px"
+          height="200px"
+          alt="banner of catpaws"
+        />
+      </div>
+      <div>
+        <img
+          src="/styles/catpaw.jpg"
+          width="200px"
+          height="200px"
+          alt="banner of catpaws"
+        />
+      </div>
+      <div>
+        <img
+          src="/styles/catpaw.jpg"
+          width="200px"
+          height="200px"
+          alt="banner of catpaws"
+        />
+      </div>
+      <div>
+        <img
+          src="/styles/catpaw.jpg"
+          width="200px"
+          height="200px"
+          alt="banner of catpaws"
+        />
+      </div>
+      <div>
+        <img
+          src="/styles/catpaw.jpg"
+          width="200px"
+          height="200px"
+          alt="banner of catpaws"
+        />
+      </div>
+      <div>
+        <img
+          src="/styles/catpaw.jpg"
+          width="200px"
+          height="200px"
+          alt="banner of catpaws"
+        />
+      </div>
+      <div>
+        <img
+          src="/styles/catpaw.jpg"
+          width="200px"
+          height="200px"
+          alt="banner of catpaws"
+        />
+      </div>
     </div>
 
     <img
@@ -311,7 +476,7 @@
     <!--This is the end cart in  Checkout Area aka cart2-->
     <div
       class="container mt-5 bottomview"
-      style="margin-left: 500px"
+      style="margin-left: 600px"
       id="bottom-view"
     >
       <div class="col-md-4" id="last-section">
@@ -336,7 +501,7 @@
 
     <br />
 
-    <div class="input-group" style="margin-left: 500px">
+    <div class="input-group" style="margin-left: 610px">
       <div class="input-group-prepend">
         <button
           onclick="getValue()"
