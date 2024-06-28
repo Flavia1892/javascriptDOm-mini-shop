@@ -182,7 +182,6 @@ function renderCheckoutCart() {
 
         // o pasez functiei addToCart ca parametru
         addToCart(productId);
-        console.log("aha");
       });
     });
   const totalValue = document.getElementById("total-viewcart"); //here we see the total sum of the cart in the CHECKOUT Cart
@@ -717,9 +716,11 @@ function getValue() {
 }
 
 function checkout() {
+ 
   getModal();
 
   let butonInModal1 = document.getElementById("last-checkout");
+  butonInModal1.style.display='block';
 
   document.getElementById("cancel").style.display = "block";
 
@@ -747,6 +748,7 @@ function checkout() {
     resetAll();
 
     document.getElementById("cancel").style.display = "none";
+    butonInModal1.style.display='none';
 
     let goToTop = document.getElementById("top-view"); //scroll back to top after checout
     goToTop.scrollIntoView();
