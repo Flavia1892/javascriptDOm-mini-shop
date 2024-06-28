@@ -711,16 +711,17 @@ function getValue() {
     inputField.value = "";
   } else {
     inputField.value = "";
-    alert("The code you have entered is not valid");
+    alert("The code you have entered is not valid;please insert a valid code");
   }
 }
 
 function checkout() {
- 
+
+  if(cart.length>0){
   getModal();
 
   let butonInModal1 = document.getElementById("last-checkout");
-  butonInModal1.style.display='block';
+  butonInModal1.style.display = "block";
 
   document.getElementById("cancel").style.display = "block";
 
@@ -748,11 +749,12 @@ function checkout() {
     resetAll();
 
     document.getElementById("cancel").style.display = "none";
-    butonInModal1.style.display='none';
+    butonInModal1.style.display = "none";
 
     let goToTop = document.getElementById("top-view"); //scroll back to top after checout
     goToTop.scrollIntoView();
   });
+}
 }
 
 document.getElementById("checkout-btn").addEventListener("click", checkout);
