@@ -721,6 +721,36 @@ function getValue() {
     alert("The code you have entered is not valid;please insert a valid code");
   }
 }
+function getValueByEnter() {
+  let value = "";
+
+  document.getElementById("myInput").addEventListener("keypress", function (e) {
+    if (e.key === "Enter") {
+      value = this.value;
+
+      let sum = 0;
+      if (value === "cats10") {
+        discountCounter = 1;
+        sum = totalvalueOfCart() * 0.9;
+        const totalValue1 = document.getElementById("total-viewcart"); //here we see the total sum of the cart in the CHECKOUT Cart
+        totalValue1.innerHTML = `<p style="font-size:30px">ViewCart</p> <b> Total cost: ${sum} $</b>`;
+
+        const totalValue = document.getElementById("totalsum-viewcart"); //Display total amount of $ in floating right cart
+        totalValue.innerHTML = `<p style="font-size:30px">Cart</p> <b> Total cost: ${sum} $</b>`;
+
+        cartSumForModal = sum;
+
+        this.value = "";
+        getModalForCoupon();
+      } else {
+        this.value = "";
+        alert(
+          "The code you have entered is not valid;please insert a valid code"
+        );
+      }
+    }
+  });
+}
 
 function checkout() {
   if (cart.length > 0) {
@@ -790,3 +820,5 @@ renderProducts();
 
 let modal2 = document.getElementById("myModal2");
 modal2.style.display = "none";
+
+getValueByEnter();
