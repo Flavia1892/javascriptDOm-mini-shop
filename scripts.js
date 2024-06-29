@@ -522,7 +522,7 @@ function clearProductIdFromCart(productId) {
   for (let key in cart) {
     if (cart[key].id === productId) {
       products[cart[key].id - 1].quantity += cart[key].quantitycount;
-      cart[key].quantitycount=0;
+      cart[key].quantitycount = 0;
       cart.splice(key, 1);
     }
     renderProducts();
@@ -590,13 +590,16 @@ function getModal() {
   //Modal creation
   let modal = document.getElementById("myModal");
 
+  let productsPurchased = document.getElementById("productsShow");
+  productsPurchased.innerHTML = ``;
+
   modal.style.display = "block";
 
   // Get the <span> element that closes the modal
   let span = document.getElementsByClassName("close")[1];
-  let cancelBtn = document.getElementsByClassName("close")[0];
+  let cancelBtn = document.getElementById("cancel");
 
-  // When the user clicks on <span> (x), close the modal
+  //  When the user clicks on <span> (x), close the modal
   span.onclick = function () {
     document.querySelector(".succes").innerHTML = "";
     document.querySelector(".checkoutdisplay").innerHTML = "";
@@ -604,15 +607,12 @@ function getModal() {
     modal.style.display = "none";
   };
 
-  cancelBtn.onclick = function () {
+  cancelBtn.addEventListener("click", function () {
     document.querySelector(".succes").innerHTML = "";
     document.querySelector(".checkoutdisplay").innerHTML = "";
 
-    let productsPurchased = document.getElementById("productsShow");
-    productsPurchased.innerHTML = ``;
-
     modal.style.display = "none";
-  };
+  });
 
   // When the user clicks anywhere outside of the modal, close it
   window.onclick = function (event) {
@@ -715,9 +715,7 @@ function getValue() {
     cartSumForModal = sum;
 
     inputField.value = "";
-    alert(
-      `Your code has been applied succesful too the cart; proceed to checkout`
-    );
+    getModalForCoupon();
   } else {
     inputField.value = "";
     alert("The code you have entered is not valid;please insert a valid code");
@@ -764,12 +762,31 @@ function checkout() {
     });
   } else alert("Your cart is empty!");
 }
+function getModalForCoupon() {
+  let modalForCoupon = document.querySelector(".modalCoupon");
+
+  modalForCoupon.style.display = "block";
+
+  // Get the <span> element that closes the modal
+  let span = document.getElementsByClassName("close")[0];
+
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function () {
+    modalForCoupon.style.display = "none";
+  };
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function (event) {
+    if (event.target == modalForCoupon) {
+      modalForCoupon.style.display = "none";
+    }
+  };
+}
 
 document.getElementById("checkout-btn").addEventListener("click", checkout);
+document.querySelector("#rightCart").style.display = "none";
 
 renderProducts();
-
-document.querySelector("#rightCart").style.display = "none";
 
 let modal2 = document.getElementById("myModal2");
 modal2.style.display = "none";
